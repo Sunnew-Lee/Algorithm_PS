@@ -1,22 +1,32 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <stack>
+
 using namespace std;
 
-stack<pair<int, int> > tower;
 
-int main(void) {
+int main()
+{
 	ios::sync_with_stdio(0);
-	cin.tie(0);
+	cin.tie(nullptr);
 
-	int n;
-	cin >> n;
-  	tower.push({100000001, 0});
-	for (int i = 1; i <= n; i++) {
-		int height;
-		cin >> height;
-		while (tower.top().first < height)
-			tower.pop();
-		cout << tower.top().second << ' ';
-		tower.push({height, i});
+	int N, tower;
+	cin >> N;
+
+	stack<pair<int, int>> S;
+	S.emplace(100000001, 0);
+
+	for (int i{ 1 }; i <= N; ++i)
+	{
+		cin >> tower;
+
+		while (tower >= S.top().first)
+		{
+			S.pop();
+		}
+
+		cout << S.top().second << ' ';
+		S.emplace(tower, i);
 	}
-    return 0;
+
+	return 0;
 }
