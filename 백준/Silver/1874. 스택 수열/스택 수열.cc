@@ -1,42 +1,51 @@
 #include <iostream>
 #include <stack>
 #include <string>
+
 using namespace std;
+
+//int arr[100001];
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin.tie(nullptr);
+	
+	int n;
+	cin >> n;
 
-    int size, num;
-    cin >> size;
-    stack<int> stk;
-    string str;
+	bool possible{ true };
+	string answer = "";
+	stack<int> S;
+	int i{ 0 }, index{ 1 }, num;
 
-    int i{ 1 };
-    while (size--)
-    {
-        cin >> num;
-        while (i <= num)
-        {
-            str += "+\n";
-            stk.push(i++);
-        }
-        if (stk.top() == num)
-        {
-            stk.pop();
-            str += "-\n";
-        }
-        else
-        {
-            cout << "NO";
-            return 0;
-        }
+	while (i < n)
+	{
+		cin >> num;
+		while (index <= num)
+		{
+			answer += "+\n";
+			S.push(index++);
+		}
 
-    }
+		if (S.top() == num)
+		{
+			answer += "-\n";
+			S.pop();
+			++i;
+		}
+		else
+		{
+			possible = false;
+			break;
+		}
+	}
 
-    cout << str;
-    
+	if (possible)
+		cout << answer;
+	else
+		cout <<  "NO";
 
-    return 0;
+
+	return 0;
 }
