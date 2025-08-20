@@ -4,35 +4,6 @@
 #include <string>
 using namespace std;
 
-void parse(string& str, vector<int>& vec)
-{
-    int num = 0;
-    bool negative = false;
-
-    for (char c : str) 
-    {
-        if (c == ' ') 
-        {
-            if (negative)
-                vec.push_back(-num);
-            else
-                vec.push_back(num);
-            
-            num = 0;
-            negative = false;
-        } 
-        else if (c == '-')
-            negative = true;
-        else
-            num = num * 10 + (c - '0');
-    }
-    
-    if (negative)
-        vec.push_back(-num);
-    else
-        vec.push_back(num);
-};
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -44,10 +15,34 @@ int main() {
     vector<int> vec;
     string a;
     getline(cin, a);
-    parse(a,vec);
-    a.clear();
+
+    int num = 0;
+    bool negative = false;
+
+    for (char c : a) {
+        if (c == ' ') {
+            if (negative) {
+                vec.push_back(-num);
+            } else {
+                vec.push_back(num);
+            }
+            num = 0;
+            negative = false;
+        } else if (c == '-') {
+            negative = true;
+        } else {
+            num = num * 10 + (c - '0');
+        }
+    }
+    if (negative) {
+        vec.push_back(-num);
+    } else {
+        vec.push_back(num);
+    }
 
     deque<int> dq;
+    string result; // 결과를 저장할 문자열
+
     for (int i = 0; i < n; i++) {
         while (!dq.empty() && dq.front() < i - l + 1) {
             dq.pop_front();
@@ -58,10 +53,10 @@ int main() {
         }
 
         dq.push_back(i);
-        a += to_string(vec[dq.front()]) + ' '; // 결과를 문자열에 추가
+        result += to_string(vec[dq.front()]) + " "; // 결과를 문자열에 추가
     }
 
-    cout << a;
+    cout << result;
 
     return 0;
 }
