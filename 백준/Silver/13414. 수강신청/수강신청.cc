@@ -5,7 +5,6 @@
 
 using namespace std;
 
-int arr[500001];
 int main()
 {
     ios::sync_with_stdio(false);
