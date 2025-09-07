@@ -52,11 +52,9 @@ void reorder_bottomup(int index)
 		return;
 
 	int root_idx{ index / 2 };
-	int left_idx, right_idx, _min, left, right;
+	int _min;
 	if ((index & 1) == false)
 	{
-		//right_idx = index;
-		//left_idx = right_idx - 1;
 		--root_idx;
 	}
 
@@ -68,41 +66,6 @@ void reorder_bottomup(int index)
 	}
 
 	reorder_bottomup(root_idx);
-
-	////check if no right	
-	//else
-	//{
-	//	left_idx = index;
-	//	left = heap[left_idx];
-
-	//	right_idx = left_idx + 1;
-	//	if (heap.size() == right_idx)
-	//	{
-	//		//no right
-	//		_min = min(heap[root_idx], left);
-	//	}
-	//	else
-	//	{
-	//		right = heap[right_idx];
-	//		_min = min(heap[root_idx], min(left, right));
-	//	}
-
-	//	if (_min == heap[root_idx])
-	//	{
-	//		return;
-	//	}
-
-	//	if (_min == left)
-	//	{
-	//		swap(heap[root_idx], heap[left_idx]);
-	//	}
-	//	else
-	//	{
-	//		swap(heap[root_idx], heap[right_idx]);
-	//	}
-	//	reorder_bottomup(root_idx);
-	//}
-	
 }
 
 int main()
