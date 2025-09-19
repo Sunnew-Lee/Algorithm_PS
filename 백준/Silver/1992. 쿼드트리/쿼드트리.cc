@@ -5,6 +5,24 @@ using namespace std;
 
 int N;
 
+bool need_div(int len, pair<int, int>& start, vector<vector<char>>& v)
+{
+	const char value = v[start.first][start.second];
+
+	for (int i{ start.first }; i < start.first + len; ++i)
+	{
+		for (int j{ start.second }; j < start.second + len; ++j)
+		{
+			if (v[i][j] != value)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 //2. start func -> print '(' + recur if need divide + print ')' if returned
 //	2.1. for 0~3, check if need to divide
 //	2.2. if no need to div, print 0 or 1
@@ -18,13 +36,6 @@ void func(int div_count, int section, pair<int,int>&& start, vector<vector<char>
 		return;
 	}
 
-	//len>>1; + section => start point
-	// if section
-	//	0-> 0,0	x,y
-	//	1-> len>>1 , 0
-	//	2-> 0, len>>1
-	//	3-> len>>1,len>>1
-
 	int next_len = len >> 1;
 	pair<int, int> new_start = start;	//y,x
 	switch (section)
@@ -37,26 +48,8 @@ void func(int div_count, int section, pair<int,int>&& start, vector<vector<char>
 		cout << "wrong section"; break;
 	}
 
-	const char value = v[new_start.first][new_start.second];
-	bool need_div{ false };
-
 	//check if need to divide
-	for (int i{ new_start.first }; i < new_start.first+len; ++i)
-	{
-		for (int j{ new_start.second }; j < new_start.second+len; ++j)
-		{
-			if (v[i][j] != value)
-			{
-				need_div = true;
-				break;
-			}
-		}
-
-		if (need_div)
-			break;
-	}
-
-	if (need_div)
+	if (need_div(len, new_start, v))
 	{
 		cout << '(';
 		func(div_count + 1, 0, move(new_start), v);
@@ -67,8 +60,9 @@ void func(int div_count, int section, pair<int,int>&& start, vector<vector<char>
 	}
 
 	else
-		cout << value;
+		cout << v[new_start.first][new_start.second];
 }
+
 int main()
 {
 	ios::sync_with_stdio(0);
