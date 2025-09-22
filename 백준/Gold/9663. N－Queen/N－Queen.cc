@@ -1,39 +1,51 @@
+//O(1)로 가능한지 여부 파악이 핵심.
 #include <iostream>
+#include <tuple>
+
 using namespace std;
+int N, answer;
 
-bool is_used[3][40];	// [0]->vert [1]->leftdown [2]->rightdown
-int N, complete;
 
-void func(int row)
+//mask colunm 0~N-1, diagonal 0~2N-2, diagonal 0~2N-2 표현 가능
+void DFS(int row, tuple<int,int,int> mask )
 {
 	if (row == N)
 	{
-		complete++;
+		++answer;
 		return;
 	}
 
-	for (int i{ 0 }; i < N; i++)
-	{
-		if (is_used[0][i] || is_used[1][i + row] || is_used[2][i - row])
-			continue;
 
-		is_used[0][i] = true;
-		is_used[1][i + row] = true;
-		is_used[2][i - row] = true;
-		func(row + 1);
-		is_used[0][i] = false;
-		is_used[1][i + row] = false;
-		is_used[2][i - row] = false;
+	for (int x{ 0 }; x < N; ++x)
+	{
+		int col, dig_right, dig_left;
+		tie(col, dig_right, dig_left) = mask;
+
+		if ( col & (1 << x) || dig_right & (1 << (x - row + N - 1)) || dig_left & (1 << (x + row)) )
+		{
+			continue;
+		}
+
+		DFS(row + 1, { col | (1 << x),dig_right | (1 << (x - row + N - 1)), dig_left | (1 << (x + row)) });
 	}
+
 }
+
+void Solve()
+{
+	cin >> N;
+
+	DFS(0, { 0,0,0 });
+
+	cout << answer;
+}
+
 int main()
 {
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
-	cin >> N;
 
-	func(0);
-	cout << complete;
+	Solve();
 
 	return 0;
 }
