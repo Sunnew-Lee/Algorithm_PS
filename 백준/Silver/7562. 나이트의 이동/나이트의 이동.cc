@@ -1,70 +1,64 @@
 #include <iostream>
 #include <queue>
+#include <cstring>
+
 using namespace std;
+int N;
+pair<int, int> startpoint, endpoint;
 
-int arr[300][300];
-struct point
+pair<int, int> dir[8] = { {-2,1},{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1} };//오른쪽 위부터 시계방향 y,x
+
+int arr[300][300];	//0,1 안씀 2~301 302,303안씀
+
+void Solve()
 {
-    point() {};
-    point(int x, int y) :X(x), Y(y) {};
+	int TESTCASE;
+	cin >> TESTCASE;
 
-    bool operator==(point& other) const 
-    {
-        return X == other.X && Y == other.Y;
-    }
+	while (TESTCASE--)
+	{
+		cin >> N;
+		cin >> startpoint.first >> startpoint.second >> endpoint.first >> endpoint.second;
 
-    int X{ 0 }, Y{ 0 };
+		queue<pair<int, int>> Q;
+		Q.emplace(startpoint);
 
-};
+		while (!Q.empty())
+		{
+			pair<int, int> currpoint = Q.front();
+			Q.pop();
+
+			if (currpoint == endpoint)
+			{
+				cout << arr[endpoint.second][endpoint.first] << '\n';
+				break;
+			}
+
+			for (int i{ 0 }; i < 8; ++i)
+			{
+				int ny = currpoint.second + dir[i].first;
+				int nx = currpoint.first + dir[i].second;
+
+				if (ny < 0 || ny >= N || nx < 0 || nx >= N || arr[ny][nx] != 0)
+				{
+					continue;
+				}
+
+				Q.emplace(nx, ny);
+				arr[ny][nx] = arr[currpoint.second][currpoint.first] + 1;
+			}
+		}
+
+		memset(arr[0], 0, 4 * 300 * 300);
+	}
+}
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    point dir[8] = { {2,1},{1,2},{-1,2},{-2,1},{-2,-1},{-1,-2},{1,-2},{2,-1} };    //오른아래부터 시계방향
-    int scenarios, N;
-    cin >> scenarios;
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
 
-    point start, end;
-    while (scenarios--)
-    {
-        cin >> N >> start.X >> start.Y >> end.X >> end.Y;
-        //arr[start.Y][start.X] = 0;
-        queue<point> Q;
-        Q.push(start);
+	Solve();
 
-        while (!Q.empty())
-        {
-            point temp = Q.front();
-            if (temp == end)
-            {
-                cout << arr[temp.Y][temp.X] << '\n';
-                break;
-            }
-
-            Q.pop();
-
-            for (int i{ 0 }; i < 8; i++)
-            {
-                int nx = temp.X + dir[i].X;
-                int ny = temp.Y + dir[i].Y;
-
-                if (nx < 0 || nx >= N || ny < 0 || ny >= N)
-                    continue;
-
-                if (arr[ny][nx] == 0)
-                {
-                    Q.push({ nx,ny });
-                    arr[ny][nx] = arr[temp.Y][temp.X] + 1;
-                }
-            }
-        }
-
-        fill(&arr[0][0], &arr[N][0], 0);
-
-    }
-
-
-
-    return 0;
+	return 0;
 }
