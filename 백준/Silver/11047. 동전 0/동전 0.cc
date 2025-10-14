@@ -21,28 +21,10 @@ int main()
     int count{ 0 };
     for (int i{ N - 1 }; i >= 0; --i)
     {
-        if (values[i] > K)
-        {
-            continue;
-        }
-        if (values[i] == K)
-        {
-            cout << ++count;
-            break;
-        }
-
-        while (values[i] <= K)
-        {
-            K -= values[i];
-            ++count;
-        }
-
-        if (K == 0)
-        {
-            cout << count;
-            break;
-        }
+        count += K / values[i];
+        K %= values[i];
     }
+    cout << count;
 
     return 0;
 }
