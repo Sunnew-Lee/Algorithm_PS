@@ -1,36 +1,39 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 
 using namespace std;
+int dp[305];
+int value[305];
 
-int s[301]; // Stair scores (1-based index)
-int dp[301]; // DP table (1-based index)
-
-int main() {
+int main()
+{
     ios::sync_with_stdio(0);
     cin.tie(nullptr);
 
-    int n;
-    cin >> n;
-    for (int i = 1; i <= n; ++i) {
-        cin >> s[i];
+    int N;
+    cin >> N;
+    for (int i{ 1 }; i <= N; ++i)
+    {
+        cin >> value[i];
     }
 
-    // Base Cases
     dp[0] = 0;
-    dp[1] = s[1];
-    if (n >= 2) { // Need to handle n=1 case
-        dp[2] = s[1] + s[2];
+    dp[1] = value[1];
+    dp[2] = value[1] + value[2];
+
+    for (int i{ 3 }; i <= N; ++i)
+    {
+        // i-1 밟았을 때 -> path: i-3, i-1, i.
+        //dp[i] = dp[i - 3] + value[i - 1] + value[i];
+
+        // i-2 밟았을 때 -> path: i-2, i.
+        //dp[i] = dp[i - 2] + value[i];
+
+        dp[i] = max(dp[i - 3] + value[i - 1], dp[i - 2]) + value[i];
     }
 
-    // Fill DP table using the recurrence relation
-    for (int i = 3; i <= n; ++i) {
-        dp[i] = max(dp[i-3] + s[i-1] + s[i], dp[i-2] + s[i]);
-    }
-
-    // Final answer is the max score at the last stair
-    cout << dp[n];
+    
+    cout << dp[N];
+    
 
     return 0;
 }
