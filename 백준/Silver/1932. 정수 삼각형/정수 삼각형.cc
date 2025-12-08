@@ -16,24 +16,8 @@ int main() {
 	{
 		for (int j{ 1 }; j <= i; ++j)
 		{
-			cin>> num;
-
-			if (j == 1 || j==i)
-			{
-				if (j == 1)
-				{
-					arr[i][j] = arr[i - 1][1] + num;
-				}
-				else
-				{
-					arr[i][j] = arr[i - 1][j - 1] + num;
-				}
-				continue;
-			}
-
-			// 아니면 좌 우 부모중에 큰놈 + num을 저장
-			int MAX = max(arr[i - 1][j - 1], arr[i - 1][j]);
-			arr[i][j] = MAX + num;
+			cin >> num;
+			arr[i][j] = max(arr[i - 1][j - 1], arr[i - 1][j]) + num;
 		}
 	}
 
