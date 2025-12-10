@@ -2,7 +2,7 @@
 using namespace std;
 
 // 0, 1
-pair<long long, long long> D[91];
+long long D[91];
 
 int main() {
 	ios::sync_with_stdio(false);
@@ -11,13 +11,13 @@ int main() {
 	int N;
 	cin >> N;
 
-	D[1] = { 0,1 };	// 1
-	D[2] = { 1,0 };	// 10
+	D[1] = 1;
+	D[2] = 1;
 
 	for (int i{ 3 }; i <= N; ++i)
 	{
-		D[i] = { D[i - 1].first + D[i - 1].second, D[i - 1].first };
+		D[i] = D[i-1] + D[i-2];
 	}
 	
-	cout << D[N].first + D[N].second;
+	cout << D[N];
 }
